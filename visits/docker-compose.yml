@@ -1,0 +1,9 @@
+version: '3'
+services: 
+  redis-server:
+    image: 'redis'
+  node-app: 
+    restart: on-failure # "no"(has to be in quotes: in yml file no gets interpreted as false) ,always, on-failure, unless-stopped
+    build: . #meas use docker file form current directory
+    ports: 
+      - "4001:8081" # in yaml file "-" means an array
