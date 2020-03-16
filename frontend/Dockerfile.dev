@@ -1,0 +1,11 @@
+FROM node:alpine
+
+WORKDIR '/app'
+
+COPY package.json . 
+RUN npm install
+
+#This is actually not needed for this case because we use volume. On docker-compose file we tell it to reference the local fs, but leave it for real production case
+COPY . . 
+
+CMD [ "npm", "run", "start" ]
