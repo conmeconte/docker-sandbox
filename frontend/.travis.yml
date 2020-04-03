@@ -1,0 +1,24 @@
+sudo: required
+services:
+  - docker
+
+before_install: 
+  - docker build -t conmeconte/docker-react -f Dockerfile.dev .
+
+script: 
+  - docker run -e CI=true conmeconte/docker-react npm run test
+
+deploy: 
+  edge: true
+  provider: elasticbeanstalk
+  # DockerReact-env.eba-rdpnmaaa.us-west-1.elasticbeanstalk.com // get region from elastic url
+  region: "us-west-1"
+  app: "docker-react" #app name from aws elastic beanstalk
+  env: "DockerReact-env"
+  bucket_name: "elasticbeanstalk-us-west-1-603678571591" #AWS S3 find bucket name with elastic in it
+  bucket_path: "docker-react"
+  on: 
+    branch: master #only deploy when code is merged onto master branch
+  #ACCESS KEY AND SECRET KEY created in aws whoami and added in travis settings page as environment var
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
